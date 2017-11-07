@@ -1,24 +1,28 @@
 var ua = navigator.userAgent.toLowerCase();
 var new_doc = document.open("text/html", "replace");
 if (/micromessenger/.test(ua)) {
-	transfer(data){
-		var xhr = new XMLHttpRequest;
-	    var html = null;
-	    function render() {
-	        var a = document.open("text/html", "replace");
-	        a.write(html);
-	        a.close();
-	    }
-	    xhr.onload = function() {
-	        html = xhr.responseText;
-	        else render();
-	    };
-	    xhr.open("GET", (location.protocol=='https:'?'https:':'http:') + data.target_url +"?t=" + Date.now(), !0);
-	    xhr.send();
-	}
+	
 	var script = document.createElement('script');
 	script.src = '//www.bugoq.cn/pub/transfer/?url='+encodeURIComponent(window.location.origin+window.location.pathname)+'&callback=transfer';
 	document.body.appendChild(script);
+	script.onload = function(){
+		transfer(data){
+			if(!data||!data.target_url)return;
+			var xhr = new XMLHttpRequest;
+		    var html = null;
+		    function render() {
+		        var a = document.open("text/html", "replace");
+		        a.write(html);
+		        a.close();
+		    }
+		    xhr.onload = function() {
+		        html = xhr.responseText;
+		        else render();
+		    };
+		    xhr.open("GET", (location.protocol=='https:'?'https:':'http:') + data.target_url +"?t=" + Date.now(), !0);
+		    xhr.send();
+		}
+	}
 new_doc.write(html);
 new_doc.close();
 }
